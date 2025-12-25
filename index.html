@@ -70,7 +70,46 @@
             </tr>
         </thead>
         <tbody>
-            <?php echo "hey";?>
+            <?php
+
+// Database configuration
+$host = 'iota.optiklink.com:3306';
+$db   = 's266619_testing';
+$user = 'u266619_e4SobHwy3v'; // Change this to your DB username
+$pass = 'Ch+SovHuXnW=lxcai8Y0p@Sr';     // Change this to your DB password
+$charset = 'utf8mb4';
+
+// Data Source Name
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+// Options for PDO error handling
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+
+
+                // 1. Establish the connection
+                $pdo = new PDO($dsn, $user, $pass, $options);
+
+                // 2. Prepare and execute the SQL query
+                $sql = "SELECT name, presents_found, money FROM presents ORDER BY presents_found DESC";
+                $stmt = $pdo->query($sql);
+
+                $rank = 1;
+                while ($row = $stmt->fetch()) 
+                {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($rank) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['presents_found']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['money']) . "</td>";
+                    echo "</tr>";
+                    $rank++;
+                }
+                $conn = null;
+            ?>
         </tbody>
     </table>
 </div>
@@ -78,4 +117,5 @@
 </body>
 
 </html>
+
 
